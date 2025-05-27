@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Yale School of Art - Enrollment</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --background-color: #ffffff;
+            --text-color: #000000;
+            --accent-yellow: rgba(255, 255, 0, 0.25);
+            --link-color: #0000EE;
+            --link-hover: #551A8B;
+            --header-height: 80px;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            padding-top: var(--header-height);
+            background-color: var(--background-color);
+        }
+
+        .navbar {
+            background-color: var(--background-color);
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            height: var(--header-height);
+        }
+
+        .navbar-brand {
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            font-size: 1.4rem;
+            letter-spacing: -0.5px;
+        }
+
+        .enrollment-header {
+            background-color: var(--accent-yellow);
+            padding: 4rem 0;
+            margin-bottom: 3rem;
+        }
+
+        .enrollment-form {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: #fff;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        .form-label {
+            font-weight: 500;
+        }
+
+        .required::after {
+            content: "*";
+            color: red;
+            margin-left: 4px;
+        }
+
+        .btn-submit {
+            background-color: var(--link-color);
+            color: white;
+            padding: 0.75rem 2rem;
+            border: none;
+            font-weight: 500;
+        }
+
+        .btn-submit:hover {
+            background-color: var(--link-hover);
+        }
+
+        .program-card {
+            border: 1px solid rgba(0,0,0,0.1);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .program-card:hover {
+            background-color: var(--accent-yellow);
+        }
+
+        .program-card.selected {
+            background-color: var(--accent-yellow);
+            border-color: var(--link-color);
+        }
+
+        /* Return Button Styles */
+        .btn-outline-primary {
+            color: var(--link-color);
+            border-color: var(--link-color);
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline-primary:hover {
+            background-color: var(--link-color);
+            color: white;
+            border-color: var(--link-color);
+        }
+
+        .btn-outline-primary i {
+            margin-right: 8px;
+        }
+
+        /* Dark Mode Styles */
+        [data-theme="dark"] {
+            --background-color: #121212;
+            --text-color: #ffffff;
+            --link-color: #88b4ff;
+            --link-hover: #bb86fc;
+            --accent-yellow: rgba(255, 255, 0, 0.15);
+            --dropdown-text: #ffffff;
+            --dropdown-bg: #1e1e1e;
+            --card-text: #ffffff;
+        }
+
+        [data-theme="dark"] .enrollment-form {
+            background-color: #1e1e1e;
+            color: var(--text-color);
+        }
+
+        [data-theme="dark"] .form-control {
+            background-color: #2d2d2d;
+            border-color: #404040;
+            color: var(--text-color);
+        }
+
+        [data-theme="dark"] .form-control:focus {
+            background-color: #2d2d2d;
+            border-color: var(--link-color);
+            color: var(--text-color);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="btn btn-outline-primary me-3" href="index.html">
+                <i class="fas fa-arrow-left"></i> Return to Main Page
+            </a>
+            <a class="navbar-brand" href="index.html">Yale School of Art</a>
+            <!-- Dark Mode Toggle -->
+            <button id="darkModeToggle" class="btn btn-outline-primary ms-auto" aria-label="Toggle dark mode">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Enrollment Header -->
+    <header class="enrollment-header">
+        <div class="container">
+            <h1 class="display-4">Apply to Yale School of Art</h1>
+            <p class="lead">Begin your journey in art education with us</p>
+        </div>
+    </header>
+
+    <!-- Enrollment Form -->
+    <div class="container mb-5">
+        <div class="enrollment-form">
+            <form id="applicationForm" onsubmit="return submitApplication(event)">
+                <!-- Personal Information -->
+                <h3 class="mb-4">Personal Information</h3>
+                <div class="row mb-4">
+                    <div class="col-md-6 mb-3">
+                        <label for="firstName" class="form-label required">First Name</label>
+                        <input type="text" class="form-control" id="firstName" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="lastName" class="form-label required">Last Name</label>
+                        <input type="text" class="form-control" id="lastName" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="email" class="form-label required">Email</label>
+                        <input type="email" class="form-control" id="email" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="phone" class="form-label required">Phone</label>
+                        <input type="tel" class="form-control" id="phone" required>
+                    </div>
+                </div>
+
+                <!-- Program Selection -->
+                <h3 class="mb-4">Select Program</h3>
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="program-card" onclick="selectProgram(this, 'graphic-design')">
+                            <h4>Graphic Design</h4>
+                            <p class="mb-0">MFA in Graphic Design</p>
+                        </div>
+                        <div class="program-card" onclick="selectProgram(this, 'painting')">
+                            <h4>Painting/Printmaking</h4>
+                            <p class="mb-0">MFA in Painting/Printmaking</p>
+                        </div>
+                        <div class="program-card" onclick="selectProgram(this, 'photography')">
+                            <h4>Photography</h4>
+                            <p class="mb-0">MFA in Photography</p>
+                        </div>
+                        <div class="program-card" onclick="selectProgram(this, 'sculpture')">
+                            <h4>Sculpture</h4>
+                            <p class="mb-0">MFA in Sculpture</p>
+                        </div>
+                        <input type="hidden" id="selectedProgram" name="program" required>
+                    </div>
+                </div>
+
+                <!-- Portfolio Upload -->
+                <h3 class="mb-4">Portfolio</h3>
+                <div class="mb-4">
+                    <label for="portfolio" class="form-label required">Upload Portfolio (PDF, max 20MB)</label>
+                    <input type="file" class="form-control" id="portfolio" accept=".pdf" required>
+                </div>
+
+                <!-- Statement of Purpose -->
+                <h3 class="mb-4">Statement of Purpose</h3>
+                <div class="mb-4">
+                    <label for="statement" class="form-label required">Tell us about your goals and aspirations (max 500 words)</label>
+                    <textarea class="form-control" id="statement" rows="5" required></textarea>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="text-center">
+                    <button type="submit" class="btn btn-submit">Submit Application</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+
+    <!-- Credits Section -->
+    <footer class="container-fluid py-3 text-center mt-5" style="background-color: var(--accent-yellow);">
+        <div class="container">
+            <p class="mb-0">
+                <strong>Website Created By:</strong><br>
+                Giankel C Roldan • Lance Kenji Lastrella • Calvin Dorado
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        function selectProgram(element, programId) {
+            // Remove selected class from all program cards
+            document.querySelectorAll('.program-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked card
+            element.classList.add('selected');
+            
+            // Update hidden input
+            document.getElementById('selectedProgram').value = programId;
+        }
+
+        function submitApplication(event) {
+            event.preventDefault();
+            
+            // Basic validation
+            if (!document.getElementById('selectedProgram').value) {
+                alert('Please select a program');
+                return false;
+            }
+
+            // Here you would typically send the form data to a server
+            alert('Thank you for your application! We will contact you soon.');
+            
+            // Reset form
+            document.getElementById('applicationForm').reset();
+            document.querySelectorAll('.program-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            document.getElementById('selectedProgram').value = '';
+            
+            return false;
+        }
+
+        // Dark Mode Toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const body = document.documentElement;
+        
+        function toggleDarkMode() {
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+                darkModeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+                darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            }
+        }
+
+        // Check for saved theme preference
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            body.setAttribute('data-theme', 'dark');
+            darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        }
+
+        darkModeToggle.addEventListener('click', toggleDarkMode);
+    </script>
+</body>
+</html> 
